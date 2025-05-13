@@ -1,40 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
-  <!-- 背景 -->
-  <rect width="800" height="600" fill="#f9f9f9"/>
-  
-  <!-- 标题 -->
-  <text x="400" y="40" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold" fill="#333">线性回归模型框架</text>
-  
-  <!-- 数据层 -->
-  <rect x="100" y="100" width="600" height="100" rx="10" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
-  <text x="400" y="150" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#1890ff">数据层</text>
-  <text x="400" y="180" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">{(x₁,y₁), (x₂,y₂), ..., (xₙ,yₙ)}，其中x是特征向量，y是目标变量</text>
-  
-  <!-- 假设函数 -->
-  <rect x="100" y="250" width="280" height="100" rx="10" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
-  <text x="240" y="285" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#fa8c16">假设函数</text>
-  <text x="240" y="315" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">h(x) = θ₀ + θ₁x₁ + θ₂x₂ + ... + θₙxₙ</text>
-  <text x="240" y="345" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">向量形式：h(x) = θ^T·x</text>
-  
-  <!-- 损失函数 -->
-  <rect x="420" y="250" width="280" height="100" rx="10" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
-  <text x="560" y="285" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#52c41a">损失函数</text>
-  <text x="560" y="315" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">均方误差(MSE)：J(θ) = (1/2m)Σ(h(x⁽ⁱ⁾)-y⁽ⁱ⁾)²</text>
-  
-  <!-- 优化算法 -->
-  <rect x="100" y="400" width="600" height="100" rx="10" fill="#e9f7ef" stroke="#2e7d32" stroke-width="2"/>
-  <text x="400" y="450" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#2e7d32">优化算法</text>
-  <text x="250" y="480" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">梯度下降：θ_j = θ_j - α∂J(θ)/∂θ_j</text>
-  <text x="550" y="480" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">正规方程：θ = (X^T X)⁻¹ X^T y</text>
-  
-  <!-- 输出层 -->
-  <rect x="300" y="520" width="200" height="60" rx="10" fill="#b3e5fc" stroke="#0288d1" stroke-width="2"/>
-  <text x="400" y="555" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#0288d1">最优参数 θ*</text>
-  
-  <!-- 连接线 -->
-  <line x1="400" y1="200" x2="400" y2="250" stroke="#666" stroke-width="2" stroke-dasharray="5,5"/>
-  <line x1="240" y1="350" x2="240" y2="400" stroke="#666" stroke-width="2"/>
-  <line x1="560" y1="350" x2="560" y2="400" stroke="#666" stroke-width="2"/>
-  <line x1="400" y1="500" x2="400" y2="520" stroke="#666" stroke-width="2"/>
-</svg>
+graph TD
+    subgraph 数据层
+        A[原始数据输入] --> B[数据预处理<br>（归一化/标准化、缺失值处理）]
+        B --> C[特征矩阵 X (n×d)，目标向量 y (n×1)]
+    end
     
+    subgraph 模型层
+        D[假设函数<br>hθ(X) = θ₀ + θ₁X₁ + ... + θ_dX_d<br>向量形式：hθ = Xθ]
+        D --> E[损失函数<br>均方误差(MSE)<br>J(θ) = (1/2n)Σ(hθ⁽ⁱ⁾ - y⁽ⁱ⁾)²]
+    end
+    
+    subgraph 优化层
+        E --> F{优化算法选择}
+        F -->|梯度下降法| G[计算梯度<br>∇J(θ) = (1/n)X^T(Xθ - y)]
+        F -->|正规方程法| H[直接求解<br>θ = (X^T X)⁻¹ X^T y]
+        G --> I[迭代更新 θ<br>θ = θ - α∇J(θ)]
+        I & H --> J[判断收敛<br>（损失值稳定或达到迭代次数）]
+    end
+    
+    subgraph 输出层
+        J --> K[最优参数 θ*]
+        K --> L[预测<br>y_pred = Xθ*]
+        L --> M[模型评估<br>R²、MSE、MAE]
+    end
+
+    style A fill:#f9f6ff,stroke:#1f78b4,stroke-width:2px
+    style B fill:#e6f7ff,stroke:#1890ff,stroke-width:2px
+    style C fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style D fill:#fff2e8,stroke:#fa8c16,stroke-width:2px
+    style E fill:#f6ffed,stroke:#52c41a,stroke-width:2px
+    style F fill:#e9f7ef,stroke:#2e7d32,stroke-width:2px
+    style G,H fill:#f8f0c5,stroke:#f57c00,stroke-width:2px
+    style I fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style J fill:#b3e5fc,stroke:#0288d1,stroke-width:2px
+    style K-L fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style M fill:#e0f7fa,stroke:#00acc1,stroke-width:2px
